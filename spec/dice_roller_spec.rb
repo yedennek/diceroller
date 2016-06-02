@@ -23,5 +23,23 @@ describe DiceRoller do
         expect(subject.roll '1d20').to be_between(1,20).inclusive 
       end
     end 
+
+    context "given modifiers" do
+      before :each do
+        srand(2) #Seed rand so we can get known test data
+      end
+
+      it "returns 3 when given 1d6 + 2" do
+        expect(subject.roll "1d6 + 2").to eq 3
+      end
+
+      it "returns -1 when given 1d6 - 2" do
+        expect(subject.roll "1d6 - 2").to eq -1
+      end
+
+      it "ignores whitespace returns 3 when given 1d6+2" do
+        expect(subject.roll "1d6+2").to eq 3
+      end
+    end
   end
 end

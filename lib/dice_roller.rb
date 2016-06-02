@@ -1,6 +1,6 @@
 class DiceRoller
 
-  Dice = Struct.new(:number, :type)
+  Dice = Struct.new(:number, :type, :modifier)
 
   def roll dice_types
    puts "Rolling #{dice_types}..."
@@ -12,14 +12,14 @@ class DiceRoller
   private
 
   def parse dice_types
-    dice = dice_types.split('d')
-    Dice.new(dice.first.to_i, dice.last.to_i)
+    number, type, modifier = dice_types.match(/^(\d+)d(\d+)(.+\d+)?/).captures
+    mod = modifier ? modifier.gsub(/\s+/, "") : 0
+    Dice.new(number.to_i, type.to_i, mod.to_i)
   end
 
   def dice_total dice
     total = 0 
     dice.number.times { total += rand(1..dice.type) }
-    total
+    total += dice.modifier
   end
-
 end
